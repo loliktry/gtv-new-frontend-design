@@ -1,0 +1,2153 @@
+/*****************************************************************************************************************
+  * GTV Styles
+  * Feel free to separate this style out into other files base on device
+  *****************************************************************************************************************/
+
+
+
+/*****************************************************************************************************************
+	 Sass Variables 
+  *****************************************************************************************************************/
+	$font-family:    Arial, Helvetica, sans-serif;
+	$font-avenir: "Avenir", Arial, Helvetica, sans-serif;
+	$b-red: #f00 thin solid;  /* For layout purpose (Remove when ready for the deployment). */
+	$b-white: #fff thin solid;
+	$b-gray: #ccc thin solid;
+	$b-black: #000 thin solid;
+	
+/* End */
+
+/*****************************************************************************************************************
+ 	Sass Mixins 
+  *****************************************************************************************************************/
+	/* setup mixins */
+	@mixin set-element-defaults-position($width: auto , $height: auto, $margin: 0, $position: relative, $top: auto, $left: auto, $bottom: auto, $right: auto, $padding: 0 , $color: none) {		
+		width: $width;	
+		height: $height;
+		margin: $margin;	
+		position: $position;
+		top: $top;
+		left: $left;
+		bottom: $bottom;
+		right: $right;
+		padding: $padding;
+		color: $color;
+	}
+	
+	@mixin set-element-defaults-display($width: auto , $height: auto, $margin: 0, $float: none, $display: block, $padding: 0, $color: none) {
+		width: $width;	
+		height: $height;
+		margin: $margin;
+		float: $float;
+		display: $display;
+		padding: $padding;
+		color: $color;		
+	}
+	
+	/* animate/touch mixins */
+	@mixin trans($val) {
+		/* Trigger GPU */
+		-webkit-transform: translateZ(0);
+	   -moz-transform: translateZ(0);
+	   -ms-transform: translateZ(0);
+	   -o-transform: translateZ(0);
+	   transform: translateZ(0);	 
+
+		/* Stop flicker effect hack */
+		/*-webkit-backface-visibility: hidden;
+	   -moz-backface-visibility: hidden;
+	   -ms-backface-visibility: hidden;
+	   backface-visibility: hidden;
+	
+	   -webkit-perspective: 1000;
+	   -moz-perspective: 1000;
+	   -ms-perspective: 1000;
+	   perspective: 1000;*/
+	   
+	   /* Other transform properties here */
+		transition: $val;
+    	-moz-transition: $val; /* Firefox 4 */
+    	-webkit-transition: $val; /* Safari and Chrome */
+    	-o-transition: $val; /* Opera */
+	}
+	
+	@mixin transparent($val: 50) {		
+		//width: 100%; 			
+		-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=$val)";
+		filter: alpha(opacity=$val);
+		-moz-opacity: $val * 0.01;
+		-khtml-opacity: $val * 0.01;
+		opacity: $val * 0.01;
+	}
+	
+	@mixin scroll-touch() {
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+		-moz-overflow-scrolling: touch;
+		-ms-overflow-scrolling: touch;
+		-o-overflow-scrolling: touch;
+		overflow-scrolling: touch;
+	}
+	
+	/* Gradient Background */
+	@mixin gradient($opacity : 1.0) {
+		/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+
+background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjU4JSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwLjgiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwLjgiLz4KICA8L2xpbmVhckdyYWRpZW50PgogIDxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9InVybCgjZ3JhZC11Y2dnLWdlbmVyYXRlZCkiIC8+Cjwvc3ZnPg==);
+
+background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 58%, rgba(0,0,0,0.8) 100%); /* FF3.6+ */
+
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(58%,rgba(0,0,0,0.8)), color-stop(100%,rgba(0,0,0,0.8))); /* Chrome,Safari4+ */
+
+background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.8) 58%,rgba(0,0,0,0.8) 100%); /* Chrome10+,Safari5.1+ */
+
+background: -o-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.8) 58%,rgba(0,0,0,0.8) 100%); /* Opera 11.10+ */
+
+background: -ms-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.8) 58%,rgba(0,0,0,0.8) 100%); /* IE10+ */
+
+background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.8) 58%,rgba(0,0,0,0.8) 100%); /* W3C */
+
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#cc000000',GradientType=0 ); /* IE6-8 */
+
+	}
+	
+	/* Border and shadows mixins */
+	@mixin radius($rad: 5px , $pos: null) {
+		@if $pos == null {
+			-webkit-border-radius: $rad;
+			-moz-border-radius: $rad;
+			border-radius: $rad;
+		}	
+		@else {
+			-webkit-border-#{$pos}-radius: $rad;
+			-moz-border-#{$pos}-radius: $rad;
+			border-#{$pos}-radius: $rad;			
+		}	
+	}
+	
+	@mixin border($val : none , $pos: null ) {
+		@if $pos == null {
+			-webkit-border: $val;
+			-moz-border: $val;
+			border: $val;
+		}
+		@else {
+			-webkit-border-#{$pos}: $val;
+			-moz-border-#{$pos}: $val;
+			border-#{$pos}: $val;
+		}
+	}
+	
+	@mixin shadow ($shad: none){
+		-webkit-box-shadow: $shad;
+		-moz-box-shadow: $shad;
+		box-shadow: $shad;	
+	}
+	
+	/* Text Mixins */
+	@mixin ellipsis() {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;	
+	}
+/* End */
+
+
+
+
+
+/**************************************************************************************************************** 
+	Unverisal - across all devices
+  *****************************************************************************************************************/
+html , body {
+	border: none;
+	background: #d5d5d5;	
+	padding: 0;
+	margin: 0;
+	top: 0;
+	font-family: $font-family;	
+	height: 100%;
+	min-height: 100%;
+}
+i  {
+	color: white;
+}
+a {		
+	&:hover {
+		cursor: pointer;
+		color: #666;
+	}
+	&:active {
+		text-decoration: none;	
+	}
+}
+ul {
+	list-style: none;
+}
+
+
+
+
+
+
+/***************************************************************************************************************** 
+	Global Classes for different GTV pages. At bottom to override default styles
+******************************************************************************************************************/
+.social-icons {
+	background: url(../image/spice-social-gadget-sprite.png) no-repeat 0px 0px;
+	background-size: 335px 30px;
+}
+.fb-icon {
+	background-position: 0px 0px;
+}
+.gp-icon {
+	background-position: -92px 0px;
+}
+.in-icon {
+	background-position: -122px 0px;
+}
+.tw-icon {
+	background-position: -244px 0px;
+}
+.yt-icon {
+	background-position: -305px 0px;
+}
+.row {
+	margin: 0;
+	padding: 0;
+}
+.float-right {
+	float: right !important;
+}
+.float-left {
+	float: left !important;
+}
+.carousel-control {
+	position: absolute;
+}
+.left.carousel-control {
+	left: 0px;
+}
+.right.carousel-control {
+	right: 0px;
+}
+.tooltip {
+	width: 100px;	
+}
+
+
+
+
+
+
+
+/*****************************************************************************************************************
+	Mobile First and adjust with media query for bigger devices
+  *****************************************************************************************************************/
+/* Slide out menu styles */
+.search-inner-wrapper-outer {
+	position: fixed;					
+	height: 60px !important;
+	left: -15.625em;
+	background: #252525;	
+	z-index: 1;
+	@include border(#666 thin solid , bottom);	
+	i {
+			@include set-element-defaults-position($position: absolute, $top: 23px, $left: 15px, $color: rgba(255,255,255,0.3));		
+	}
+	input {									
+			background: rgba(255,255,255,0.3);					
+			@include border();
+			@include radius(4px);
+			@include set-element-defaults-display($width: 95%, $height: 30px, $margin: 15px 5px, $padding:  0 0 0 50px, $color: #fff);
+	}
+}
+#menu{    
+	display: block;   	
+	background: #363636;	
+	-webkit-box-shadow: inset -24px -1px 23px -22px rgba(0,0,0,0.75);
+	-moz-box-shadow: inset -24px -1px 23px -22px rgba(0,0,0,0.75);
+	box-shadow: inset -24px -1px 23px -22px rgba(0,0,0,0.75);	
+	@include set-element-defaults-position($width: 15.625em, $height: auto, $margin: 0, $position: fixed, $left: -15.625em);
+	@include radius(0px);	
+	@include scroll-touch();	
+	.scrollmenu {	
+			@include set-element-defaults-position($height: 100%, $top: 60px);			
+			min-height: 500px;					
+			#user-logged-in {
+				display: block;
+				height: 60px;	
+				@include border($val: #666 thin solid , $pos: bottom);									
+				#avatar {
+					background: url(/assets/default40by40.png);					
+					@include set-element-defaults-display($width: 40px, $height: 40px, $margin: 10px 0 0 10px, $display: inline-block);
+					@include border($b-white);					
+					vertical-align: middle;
+					@include radius(3px);
+				}	
+				#user-name {
+					@include set-element-defaults-display($width: auto, $height: 20px, $margin: 10px 0 0 5px, $display: inline-block, $color: #fff);								
+					vertical-align: middle;									
+				}	
+			}			
+			ul.menu-cate {							
+				@include set-element-defaults-display($height: 100%, $margin: auto, $padding: 0px);							
+				li {					
+					padding: 0px;
+					margin: 0px;				
+					@include border(#666 thin solid , bottom);
+					h5.menu-title {					
+						background: #252525;					
+						@include set-element-defaults-display($width: 100%, $height: 100%, $padding: 7px, $color: white);				
+					}
+					a {
+						display: block;						
+						color: #fff;
+						.img-channel {							
+							vertical-align: middle;
+							@include set-element-defaults-display($width: 30px, $height: 30px, $margin: 15px 10px, $display: inline-block);
+							@include radius(3px);							
+						}
+						.txt-no-img {							
+							@include set-element-defaults-display($height: 25px, $margin: 15px 10px);
+						}						
+						span.center-text {							
+							@include set-element-defaults-display($width: 100%, $height: 20px);
+							text-align: center;
+						}
+					}
+				}
+				li.no-border {
+					@include border();
+				}				
+			}
+	}
+}
+
+/* Web page container */
+#container {										
+		max-width: 1200px;	
+		@include set-element-defaults-position($width: 100%, $height: auto, $margin: 0px auto, $position: relative);			
+		@include shadow(2px 1px 25px 7px #252525);		
+		/* Header for Mobile */
+		header
+		{	
+			position: fixed;
+			z-index: 2;
+			nav {					
+				background: rgba(0,0,0,0.95);						
+				min-width: 320px;
+				@include set-element-defaults-position($margin: auto, $position: relative);
+				.nav-wrapper {
+					color: #fff;
+					height: 60px;
+					.stack {
+						@include set-element-defaults-display($width: 60px , $height: 100%, $margin: 0 0 0 5px, $float: left);
+						i {
+							margin-top: 25%;
+							margin-left: 25%;
+							padding: 1px 2px;
+						}		
+					}
+					.stack:active {
+						i {
+							color: #ccc;
+						}
+					}
+					img.logo
+					{				
+						@include set-element-defaults-position($width: auto , $height: auto, $margin: auto, $position: relative, $top: 6px);						
+						max-width: 75px;									
+					}
+					.login-signup {
+						@include set-element-defaults-display($width: 60px , $height: auto, $margin: 15px 10px 0 0, $float: right, $padding: 5px);
+						@include border($b-gray);
+						@include radius(5px);						
+						text-align: center;
+						a {
+							color: white;
+						}
+						a:last-child {
+							display:none;
+						}		
+					}
+					form.search , .browse {
+						display: none;
+					}
+				}
+				.browse-menu {	
+					display: none;
+					overflow: none;
+				}
+			}			
+		}
+		
+		/* Content Wrapper */
+		.main {	
+			min-width: 310px;																	
+			@include set-element-defaults-position($width: 100%, $height: 100%, $margin: 0px, $position: relative, $padding: 0px);							
+			background: #f1f1f1;	
+			.nav-tabs {
+				display: block;	
+				padding-top : 10px;			
+				margin-top: 0px;
+				background: #146abe;	
+				li {		
+					@include border(#f1f1f1 thin solid, bottom);									
+					a {
+						width: 150px;
+						text-align: center;
+						color: #fff;										
+						text-decoration: none;		
+						border: none;	
+						background: #146abe;
+					}
+					a:hover {
+						background: #146abe;															
+					}								
+				}
+				li.active {
+					a {
+						background: #f1f1f1;
+						color: #000;						
+					}
+				}
+			}																						
+			.bxslider-carousel {
+				position: relative;
+				background: #000;
+				@include set-element-defaults-display($width: 100%, $height: auto);																							
+				i.preload {
+					position: absolute;
+					font-size: 2em;
+					color: #fff;
+					top: 50%;
+					left: 50%;
+					margin-top: -0.5em;
+					margin-left: -0.5em;
+				}		
+				ul {					
+					li {
+						width: 100%;
+						img {
+							padding: 0px;
+							margin: 0px;
+						}
+					}
+				}		
+			}
+			/*** Display Ad Section ***/
+			.ad-tag-sec {	
+					position: relative;
+					margin: 20px 0px 10px 0;													
+					height: auto;						
+					.ad-tag {
+						width: 100%;
+						max-width: 727px;	
+						height: 100px;											
+						iframe {							
+							margin: 5px 0;
+							@include border(#999 thin solid);
+						}
+						i {
+							position: relative;
+							text-align: center;							
+							width: 50px;							
+							left: 50%;
+							top: 50%;
+							margin-top: -25px;
+							margin-left: -25px;
+							color: #ccc;
+						}
+					}
+			}
+			.ad-tag-sec.dark-back {
+				margin: 0;					
+				height: 200px;
+				background: #353535;				
+				.ad-tag {
+					margin-top: 70px;
+				}
+			}
+			/* Video Player Style */
+			.video-player-sec {
+				margin: 0px;
+				height: auto;				
+				width: 100%;	
+				background: #353535;	
+				#video-container {	
+					position: relative;								
+					margin : 65px 5% 10px 5%;
+					width : 90%;
+					height: 200px;					
+					video {
+						position: absolute;
+						margin: 0px;
+						top: 0%;
+						left: 0%;						
+						padding: 0px;	
+						width: 100%;
+						height: 100%;					
+					}	
+				}
+				#tab-container {
+					display: none;
+					width: 100%;
+					height: 30%;
+					margin-top: 0px;
+					padding: 0px;						
+					#inner-tab-content {
+						#explore {
+								i {
+									position: relative;
+									color: #666;
+									top: 27px;
+									left: 20px;									
+								}
+								input {
+									padding-left: 50px;
+									width: 95%;
+								}
+						}		
+					}				
+				}
+				#channel-info-container {
+					display: block;
+					background-color: #222222;
+					height: 250px;
+					width: 100%;	
+					margin-top: 0px;
+					.watch-follow-btn {
+						float: left;						
+						margin-top: 5px;
+						margin-right: 0px;												
+						a {	
+									color: #fff;
+									text-decoration: none;									
+									float: left;	
+									padding: 8px 5px;								
+									margin: 10px;
+									width: 100px;
+									background: #1672cc;
+									@include radius(10px);	
+									i {										
+										margin: 0px 10px;
+									}								
+						}
+						a:hover {
+									background: #1a86ef;
+						}
+					}	
+					.channel-profile-icon {
+						display:inline-block;						
+						width: 75px;
+						height: 75px;
+						margin: 0px 0 0 10px;
+						padding: 0px;					
+						@include border($b-gray);
+						img {
+							margin-top: 20px;
+						}
+					}
+					.channel-profile-info {
+						display:inline-block;	
+						padding: 0px;
+						color: #fff;						
+						width: 67%;
+						height: 75px;	
+						margin: 20px 0 0 5px;								
+						overflow: hidden;																									
+						h3 {							
+							margin: 0 0 5px 0;
+							padding: 0px;
+							width: 100%;
+							height: auto;							
+						}						
+						p {													
+							width: 100%;
+							height: auto;
+							max-height: 73%;
+							font-size: 1em;
+							white-space: wrap;
+							overflow: hidden;			
+							color: #8d8d8d;																																			
+						}								
+					}
+					.channel-stats-info {	
+						float: left;					
+						@include radius(15px);						
+						margin: 0px; 
+						width: 100%;
+						height: 75px;
+						background: #353535;
+						margin: 10px 0 0 0;
+						.channel-stat-content {
+							float:left;
+							width: 100%;
+							height: 100%;							
+							.channel-block-views , .channel-block-videos , .channel-block-followers {								
+								float: left;
+								width: 33%;
+								height: 100%;
+								margin-right: 5px;
+								padding: 12px 0 0 0px;
+								h3  { 										
+										color: #fff;	
+										margin: 0px;
+										padding: 0px;		
+										text-align: center;											
+										width: 75%;						
+								}
+								p {										
+										color: #8d8d8d;	
+										text-align: center;										
+										width: 75%;
+								}																							
+							}	
+							.channel-block-followers {
+								width	: 23%;
+								h3 , p  { 																				
+										width: 60%;																
+								}									
+							}						
+						}
+						.channel-right-arrow {
+							float: right;							
+							margin-right: -30px;							
+							width: 0px;
+							height: 0px;
+							border-style: solid;
+							border-width: 37px 0 38px 30px;
+							border-color: transparent transparent transparent #353535;
+						}	
+					}
+				}				
+			}
+			/* Channel Page Style */
+			.channel-profile-sec {
+				.channel-profile-icon {
+					display: block;
+					width: 150px;
+					height: 150px;
+					@include border($b-red);
+					margin: 100px 15px 0 20px;
+				}
+				.channel-profile-info {
+					display: block;
+					position: relative;
+					color: #fff;
+					margin-top: 10px;
+					padding: 10px;
+					width: auto;
+					height: auto;
+					min-height: 300px;
+					overflow: hidden;					
+					h1 {
+						margin: 0px;
+						padding: 0px;
+					}
+					p.channel-stats {
+						color: #428bca;
+					}
+					p.channel-desc {
+						max-width: 600px;
+						font-size: 1.2em;												
+					}				
+				}
+				.watch-follow-btn {
+						position: absolute;
+						top: 100px;
+						margin-top: 50px;						
+						right: 15px;
+						a {	
+									color: #fff;
+									text-decoration: none;									
+									float: left;	
+									padding: 8px 5px;								
+									margin: 10px;
+									width: 100px;
+									background: #1672cc;
+									@include radius(10px);	
+									i {										
+										margin: 0px 10px;
+									}								
+						}
+						a:hover {
+									background: #1a86ef;
+						}
+				}	
+			}
+			.channel-profile-sec.dark-back {
+					width: 100%;			
+					min-height: 300px;
+					background: #353535;													
+			}	
+			.channel-search-new-view-rate ,  .video-search-new-view-rate {
+					padding: 0px 30px;
+					margin: 10px 0px;					
+					.search-channel , .video-channel {
+						form {
+							.search-inner-wrapper , .video-inner-wrapper {
+								input {
+									@include radius(14px);
+								}
+							}
+							.video-inner-wrapper {													
+								position: relative;								
+								background: none;																				
+								input {
+									padding-left: 40px;
+									@include radius(14px);
+								}
+								i {
+									position: absolute;
+									top: 10px;
+									left: 14px;
+									color: #a1a1a1;									
+								}
+							}
+						}
+					}
+					.new-view-rate {
+						float: right;
+						margin-top: 8px;						
+						min-width: 300px;						
+						span:first-child {
+							margin-right: 10px;
+						}
+						span {
+							margin: 0px 5px;
+						}
+					}
+			}							
+			/* Trending */
+			.trending-sec , .people-sec , .video-sec , .video-channel-sec {		
+					display: block;			
+					margin:  10px auto;
+					padding: 0px 0px;	
+					height: auto;				
+					.category-title {							
+							//@include border($b-gray);
+							padding: 0px 10px;							
+							width: 100%;
+							font-family: $font-avenir;
+							color: #464646;							
+					}
+					.video-entry-row , .video-entry-wide {	
+							height: auto;																										
+							.owl-wrapper-outer {
+								height: 100%;
+								.owl-wrapper {
+									height: 100%;
+									.owl-item.loading{
+										background-position: center 80px;
+									}
+									.owl-item {
+										height: auto;
+									}
+								}
+							}				
+							.video-entry {	
+									display: inline-block;
+									position: relative;								
+									padding: 0px;
+									margin: 0px;
+									width: 100%;									
+									padding: 0px;														
+									@include border(#f1f1f1 thick solid);
+									img {
+										//max-width: 370px;
+										width: 100%;
+										height: auto;	
+										@include border(#afafaf thin solid);																												
+									}
+									.video-share-icons {																				
+										z-index: 999;
+										clear: both;
+										position: absolute;
+										top: 16px;
+										right: 10px;										
+										width: 50px;
+										height: 25px;		
+										z-index: 1;																												
+										a{
+											i {
+												padding: 3px;											
+												text-align: center;
+												vertical-align: bottom;											
+												width: 20px;
+												height: 20px;
+												background-color: rgba(0,0,0,0.50);
+												color: white;
+												@include radius(4px);																		
+											}
+											i:hover {
+												background-color: #428bca;
+											}
+										}
+									}	
+									.video-entry-time {										
+										@include set-element-defaults-position($width: auto, $height: auto, $position: absolute,
+										$top: 15px, $left: 15px, $padding: 2px 4px, $color: #fff);
+										@include radius(5px);
+										background-color: rgba(0,0,0,0.5);
+									}	
+									.video-entry-info {
+										@include set-element-defaults-position($width: auto, $height: 100%, $margin: 0px, $padding: 0px);
+										//max-width: 370px;										
+										background: #fff;																			
+										@include shadow(0px 5px 5px -2px rgba(0,0,0,0.25));
+										.video-entry-channel {
+											@include set-element-defaults-position($width: 60px, $height: 60px, $position: absolute, $top: 0px, $left: 0px);																				
+											background: url(../image/channel-star.png) center center no-repeat;
+											background-size: 45px 45px;
+											img {
+												width: 45px;
+												height: 45px;
+												margin: 8px;																								
+											}											
+										}
+										.video-entry-text {
+											font-family: $font-family;
+											font-weight: thin;
+											margin-left: 60px;																			
+											width: auto;
+											height: 60px;																																																			
+											h5 {	
+												font-size: 16px;	
+												margin: 0px 0px 5px 0;
+												padding-top: 10px;									
+												@include ellipsis();	
+												a {
+													color: #000;
+												}																																	
+											}
+											p {
+												font-size: 10px;	
+												float: left;																								
+												width: 50%;																																		
+												@include ellipsis();												
+											}								
+											p.border-left {
+												@include border(#999 thin solid, left);
+												padding-left: 6px;
+											}			
+										}
+									}	
+							}							
+					}												
+			}	
+			
+			/* People Section */
+			.people-sec {	
+				.people-entry-row {
+					.people-entry {
+						position: relative;
+						display: inline-block;
+						width: 142px;
+						padding: 0px;
+						margin: 5px;						
+						.watch-follow {																																								
+							width: 100%;
+							height: auto;
+							margin-top: 3px;	
+							position: absolute;
+							top: 105px;	
+							left: 5px;																																																										
+							a {
+								text-align: center;	
+								display: inline-block;
+								color: #fff;
+								text-decoration: none;																																				
+								padding: 3px 8px;
+								margin-left: 3px;
+								width: 58px;
+								font-size: 12px;
+								background: #1672cc;
+								@include radius(5px);																			
+							}										
+						}						
+						.people-entry-info {								
+							background-color: #fff;							
+							margin: 0px;
+							padding: 3px 3px 0px 5px;
+							@include shadow(0px 5px 5px -2px rgba(0,0,0,0.25));																	
+							h4 {
+								margin: 3px 0 0 0;								
+								font-family: $font-avenir;
+								padding: 0px;								
+								@include ellipsis();
+							}
+							p {
+								padding-bottom: 4px;
+								color: #666;
+								font-size: 1em;
+								@include ellipsis();
+							}
+						}
+					}
+				}
+			}
+			/* Channel Page Style */	
+			.video-channel-sec	{
+					.video-entry-wide {						
+						.video-entry {
+								.video-entry-info {																		
+										@include gradient(0.65);																		
+										@include shadow(0px 5px 5px -2px rgba(0,0,0,0.25));	
+										@include set-element-defaults-position($width: auto, $height: 100%, $margin: -60px 0 0 0, $padding: 0px);																																						
+										@include shadow(0px 5px 5px -2px rgba(0,0,0,0.25));
+										.video-entry-channel {
+											@include set-element-defaults-position($width: 60px, $height: 60px, $position: absolute, $top: 0px, $left: 0px);																				
+											background: url(../image/channel-star.png) center center no-repeat;
+											background-size: 45px 45px;
+											img {
+												width: 45px;
+												height: 45px;
+												margin: 8px;																								
+											}											
+										}
+										.video-entry-text {
+											color: #fff;
+											font-family: $font-family;
+											font-weight: thin;
+											margin-left: 60px;																			
+											width: 80%;
+											height: 60px;																																																			
+											h5 {	
+												font-size: 16px;	
+												margin: 0px 0px 5px 0;
+												padding-top: 10px;									
+												@include ellipsis();	
+												a {
+													color: #fff;
+												}																																												
+											}
+											p {
+												margin-right: 5px;
+												font-size: 10px;	
+												float: left;																								
+												width: 45%;																																		
+												@include ellipsis();	
+												a {
+													color: #fff;
+												}													
+											}								
+											p.border-left {												
+												@include border(#999 thin solid, left);
+												padding-left: 6px;
+											}			
+										}
+								}							
+						}							
+					}						
+			} 	 
+				
+			/* Video Grid */
+			.video-stack-sec {												
+					display: block;			
+					margin:  10px auto;
+					padding: 0px 0px;					
+					.category-title {	
+							position: relative;													
+							padding: 0px 10px;							
+							width: 100%;
+							font-family: $font-avenir;
+							color: #464646;	
+							.watch-follow-btn {
+								display: none;
+								position: absolute;
+								top: -20px;
+								right: 0px;
+								width: 250px;
+								height: auto;																								
+								a {	
+									color: #fff;
+									text-decoration: none;									
+									float: left;	
+									padding: 8px 5px;								
+									margin: 10px;
+									width: 100px;
+									background: #1672cc;
+									@include radius(10px);	
+									i {										
+										margin: 0px 10px;
+									}								
+								}
+								a:hover {
+									background: #1a86ef;
+								}
+							}
+													
+					}
+					.video-entry-row , .video-entry-wide {	
+							height: 100%;																											
+							.owl-wrapper-outer {
+								height: 100%;
+								.owl-wrapper {
+									height: 100%;									
+									.owl-item {										
+										height: 100%;
+									}
+									.owl-item.loading{										
+										background-position: center 80px;
+									}
+								}
+							}	
+							.video-entry-wide {
+									@include border($b-red);
+							}			
+							.video-entry {		
+									position: relative;							
+									padding: 0px;
+									margin: 0px;
+									width: 100%;
+									height: 100%;																	
+									padding: 0px;														
+									@include border(#f1f1f1 thick solid);
+									img {
+										width: 100%;
+										height: 100%;	
+										@include border(#afafaf thin solid);																												
+									}
+									.video-share-icons {																				
+										position: absolute;
+										top: 16px;
+										right: 10px;										
+										width: 50px;
+										height: 25px;		
+										z-index: 1;																												
+										a{
+											i {
+												padding: 3px;											
+												text-align: center;
+												vertical-align: bottom;											
+												width: 20px;
+												height: 20px;
+												background-color: rgba(0,0,0,0.50);
+												color: white;
+												@include radius(4px);																		
+											}
+											i:hover {
+												background-color: #428bca;
+											}
+										}
+									}	
+									.video-entry-time {										
+										@include set-element-defaults-position($width: auto, $height: auto, $position: absolute,
+										$top: 15px, $left: 15px, $padding: 2px 4px, $color: #fff);
+										@include radius(5px);
+										background-color: rgba(0,0,0,0.5);
+									}	
+									.double {
+										position: relative;
+										margin-top : 10px;
+										.video-entry-time {										
+											@include set-element-defaults-position($width: auto, $height: auto, $position: absolute,
+											$top: 10px, $left: 15px, $padding: 2px 4px, $color: #fff);
+											@include radius(5px);
+											background-color: rgba(0,0,0,0.5);
+										}	
+									}
+									.video-entry-info {																		
+										@include gradient(0.65);																		
+										@include shadow(0px 5px 5px -2px rgba(0,0,0,0.25));	
+										@include set-element-defaults-position($width: auto, $height: 100%, $margin: -60px 0 0 0, $padding: 0px);																																						
+										@include shadow(0px 5px 5px -2px rgba(0,0,0,0.25));
+										.video-entry-channel {
+											@include set-element-defaults-position($width: 60px, $height: 60px, $position: absolute, $top: 0px, $left: 0px);																				
+											background: url(../image/channel-star.png) center center no-repeat;
+											background-size: 45px 45px;
+											img {
+												width: 45px;
+												height: 45px;
+												margin: 8px;																								
+											}											
+										}
+										.video-entry-text {
+											color: #fff;
+											font-family: $font-family;
+											font-weight: thin;
+											margin-left: 60px;																			
+											width: 80%;
+											height: 60px;																																																			
+											h5 {	
+												font-size: 16px;	
+												margin: 0px 0px 5px 0;
+												padding-top: 10px;									
+												@include ellipsis();	
+												a {
+													color: #fff;
+												}																																												
+											}
+											p {
+												margin-right: 5px;
+												font-size: 10px;	
+												float: left;																								
+												width: 45%;																																		
+												@include ellipsis();	
+												a {
+													color: #fff;
+												}													
+											}								
+											p.border-left {												
+												@include border(#999 thin solid, left);
+												padding-left: 6px;
+											}			
+										}
+									}	
+							}							
+					}												
+			}			
+			/* Popular Channels */
+			.popular-sec , .channel-sec {
+					width: 100%;
+					display: block;			
+					margin:  10px auto;
+					padding: 0px 0px;					
+					.category-title {														
+							padding: 0px 10px;							
+							width: 100%;
+							font-family: $font-avenir;
+							color: #464646;							
+					}
+					.owl-item{
+							width: auto;
+							min-width: 140px;
+							margin: 0px;
+					}
+					.channel-entry-row {																		
+							height: 175px;
+							.owl-wrapper-outer {
+								height: 160px;
+								.owl-wrapper {
+									height: 150px;
+									.owl-item.loading{
+										background-position: center 60px;
+									}
+								}
+							}			
+							.channel-entry {									
+									padding: 0px;
+									margin: auto;
+									width: 140px;
+									height: 140px;																														
+									@include border(#f1f1f1 10px solid);
+									img {
+										width: 100%;
+										height: 100%;		
+										@include border(#afafaf thin solid);	
+										cursor: pointer;																										
+									}
+									.watch-follow {																																								
+										width: 100%;
+										height: auto;
+										margin-top: 3px;																																																												
+										a {
+											text-align: center;	
+											display: inline-block;
+											color: #fff;
+											text-decoration: none;																																				
+											padding: 4px 8px;
+											margin-left: 3px;
+											width: 53px;
+											font-size: 12px;
+											background: #1672cc;
+											@include radius(5px);																			
+										}										
+									}									
+							}							
+					}
+			}						
+		}
+		.channel-page-main {		
+			.nav-tabs {
+					margin-top: 0px;
+			}																					
+		}			
+}
+
+
+/** Ad Temp Holder **/
+#ads-hidden {
+	display: none;
+}
+
+
+/***************************************************************************************************************** 
+	Small devices under 300px
+  *****************************************************************************************************************/
+@media only screen and (min-width : 450px) {
+	#container {													
+			/* Content Wrapper */
+			.search-page-main , .channel-page-main {		
+				.nav-tabs {
+					margin-top: 0px;
+				}
+				/* Trending */
+				.trending-sec , .people-sec , .video-sec , .video-channel-sec {							
+						.video-entry-row , .video-entry-wide {									
+								.video-entry {											
+										width: 49.5%;																										
+								}							
+						}												
+				}	
+																	
+			}			
+			.main {
+				/* Channel Page Style */
+				.channel-profile-sec {				
+					.channel-profile-info {				
+						width: auto;
+						height: auto;					
+					}				
+				}
+				/* Video Player Style */
+				.video-player-sec {
+					margin: 0;
+					height: auto;	
+					width: 100%;	
+					background: #353535;	
+					#video-container {																	
+						width : 90%;
+						height: 350px;						
+						video {
+							
+						
+						}	
+					}
+				}
+				/* Video Grid */
+				.video-stack-sec , .video-channel-sec {																	
+						.video-entry-row , .video-entry-wide {										
+								.video-entry {																	
+										.video-entry-info {																												
+											.video-entry-text {
+												color: #fff;
+												font-family: $font-family;
+												font-weight: thin;
+												margin-left: 60px;																			
+												width: 70%;
+												height: 60px;																																																			
+												h5 {	
+													font-size: 16px;	
+													margin: 0px 0px 5px 0;
+													padding-top: 10px;									
+													@include ellipsis();																																		
+												}
+												p {
+													margin-right: 5px;
+													font-size: 10px;	
+													float: left;																								
+													width: 45%;																																		
+													@include ellipsis();												
+												}								
+												p.border-left {												
+													@include border(#999 thin solid, left);
+													padding-left: 6px;
+												}			
+											}
+										}	
+								}							
+						}												
+				}				
+			}
+	}
+	
+}
+
+
+/***************************************************************************************************************** 
+	For iphone 5 device - Landscape
+  *****************************************************************************************************************/
+@media only screen and (min-device-width : 320px) and (max-device-width : 568px) and (orientation : landscape) {
+	#container {																
+			.main {
+				/* Channel Page Style */
+				.channel-profile-sec {				
+					.channel-profile-info {				
+						float:left;
+						color: #fff;
+						margin-top: 0px;						
+						height: auto;
+						min-height: 300px;
+						overflow: hidden;		
+						width: 100%;					
+					}				
+				}
+				/* Video Player Style */
+				.video-player-sec {
+					margin: 0;
+					height: auto;	
+					width: 100%;	
+					background: #353535;	
+					#video-container {					;
+						width : 90%;
+						height: 250px;
+						@include border($b-red);
+						video {
+							
+						
+						}	
+					}
+					#channel-info-container {
+						.channel-profile-info {											
+							width: 82%;
+						}
+					}
+				}
+			}
+	}
+	#video {																			
+				/* Trending */
+				.video-sec , .video-channel-sec {							
+						.video-entry-wide {									
+								.video-entry {											
+										width: 49.5% !important;																										
+								}							
+						}												
+				}												
+	}
+}
+
+
+/***************************************************************************************************************** 
+	Small devices (For tablets device) Portrait
+  *****************************************************************************************************************/
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
+	#container {																	
+			header
+			{				
+				nav {									
+					.nav-wrapper {					
+						.login-signup {
+								a:last-child {display: none;}			
+						}
+						form.search {
+							display: none;						
+						}
+						.browse-menu {						
+							display: none;
+						}
+						.browse-menu.browse-open {
+							display: none;																																				
+						}						
+					}
+				}
+			}				
+			/* Content Wrapper */
+			.main {																										
+				.bxslider-carousel {	
+					height: 100%;
+					max-height: 350px;										
+					i.preload {					
+						font-size: 2.5em;						
+					}							
+				}				
+			}
+			/* The Footer */
+			footer {
+				display: none;
+			}	
+	}
+}
+
+
+/*****************************************************************************************************************
+ 	Samsung G3 Portrait
+ *****************************************************************************************************************/
+@media only screen and (max-device-width: 720px) and (orientation:portrait) {
+ 
+}
+
+
+/*****************************************************************************************************************
+ 	Samsung G3 Landscape
+ *****************************************************************************************************************/
+@media only screen and (max-device-width: 1280px) and (orientation:landscape) {
+  #container {														
+			/* Content Wrapper */
+			.main {																					
+				/* Trending */
+				.trending-sec , .people-sec , .video-sec {							
+						.video-entry-row , .video-entry-wide {									
+								.video-entry {											
+										width: 100%;																										
+								}							
+						}												
+				}									
+			}
+	}
+}
+
+
+/*****************************************************************************************************************
+ 	Medium devices (Desktops and up)
+ *****************************************************************************************************************/
+@media only screen and (min-width: 769px) 
+{	
+	#menu , .search-inner-wrapper-outer {
+		display: none;
+	}
+	#container {						
+		@include shadow(2px 1px 25px 7px #717171);	
+		height: auto;	
+		left: 0em !important;	
+		/* Top Navigation Bar, Header Styles */
+		header {
+				left: 0em !important;
+				nav {						
+					background: rgba(0,0,0,0.75);	
+					height: 60px;	
+					min-width: 750px;
+					max-width: 1200px;					
+					.nav-wrapper {												
+						@include set-element-defaults-display($width: 100% , $height: 100%, $margin: 0);
+						color: #fff;	
+						.stack {
+							display: none;
+						}					
+						img.logo						
+						{
+							@include set-element-defaults-position($width: auto , $height: auto, $margin: 5px 0 0 15px, $position: absolute);																										
+						}
+						.login-signup {
+								@include set-element-defaults-display($width: auto , $height: auto, $margin: 1.388em 13px 0 0, $float: right);												
+								@include border();
+								a {									
+									margin: 0 10px;
+								}	
+								a:last-child {
+									display:inline-block;
+								}							
+								a:hover {
+									cursor: pointer;
+									color: #1672cc;
+									text-decoration: none;
+								}
+						}
+						form.search {
+							display: block;
+							width: 100%;
+							height: 100%;														
+							.search-inner-wrapper {
+								@include set-element-defaults-position($width: 540px , $height: 30px, $margin: auto, $left: 0px);	
+								@include border();												
+								background: none;																				
+								i {
+									position: absolute;
+									top: 22px;
+									left: 6px;
+									color: #a1a1a1;
+								}
+								input {						
+									@include set-element-defaults-display($width: 355px , $height: 30px, $margin: 14px 0 0 0, $float: left, $padding: 0 0 0 30px, $color: #fff);	
+									background: rgba(255,255,255,0.75);									
+									@include border();
+									@include radius(14px);				
+								}
+								.form-control:focus {
+									background: rgba(255,255,255,1.0);
+									color: #000;
+								}
+								.browse {
+									position: relative;
+									@include set-element-defaults-display($width: 155px, $height: 100%, $margin: 14px auto 0 auto, $float: right);																											
+									div {																											
+										float: right;
+										margin: 6px 8px;
+										text-align: right;
+										a {
+											color: #fff;
+											i {
+												top: 8px;
+												left: 5px;
+												color: white;
+												font-size: 1.5em;
+											}		
+										} 
+										a:hover {
+											color: #1672cc;	
+											text-decoration: none;
+											i {
+												color: #1672cc;
+											}
+										}
+									}																		
+								}
+							}
+						}
+					}
+					.browse-menu {						
+						@include set-element-defaults-position($width: 100%, $height: 0px, $position: absolute, $top: 60px, $left: 0px, $color: #fff);																
+						opacity: 1.0;
+						overflow: hidden;																
+						background: rgba(0,0,0,0.65);						
+						@include trans(all .5s ease-in-out);						
+						display:block;						
+						z-index: 2;
+						div {
+							margin-top: 10px;
+							li {
+								margin: 5px 0px;
+							}
+							a {
+								color: #fff;								
+							}
+						}
+					}
+					.browse-menu.browse-open {
+						height: 185px;
+						opacity: 1.0;	
+						overflow: auto;																																						
+					}						
+				}
+		}
+		/* Content styles */
+		.main {
+			min-height: 500px;	
+			padding: 0 0 10px 0;
+			.nav-tabs {				
+				padding: 10px 0 0 20px;
+				background: #146abe;	
+				margin: 0;
+			}																
+			.bxslider-carousel {																					
+				i.preload {					
+					font-size: 6em;					
+				}																				
+			}	
+			/* Channel Page Style */
+			.channel-profile-sec {
+				.channel-profile-icon {					
+					float: left;
+					margin: 100px 15px 0 20px;
+				}				
+				.channel-profile-info {	
+					float: left;			
+					margin-top: 85px;
+					width: 58%;		
+					position: relative;								
+				}
+				.watch-follow-btn {																		
+						display: block;
+						float: right;						
+						margin-right: 15px;
+						margin-top: 150px;
+						position: relative;
+						left: 0px;
+						top: 0px;
+				}	
+			}			
+			/* Trending */
+			.trending-sec , .people-sec , .video-sec , .video-channel-sec {	
+					margin:  0px auto;
+					padding: 0px 40px;	
+					height: auto;				
+					.video-entry-row , .video-entry-wide {	
+							height: auto;							
+							.owl-wrapper-outer {
+								height: 100% !important;
+								.owl-wrapper {
+									height: 100% !important;
+								}
+							}
+							.owl-controls .owl-buttons .owl-prev , .owl-controls .owl-buttons .owl-next {
+								top: 75px;
+							}																																	
+							.video-entry {												
+									cursor: pointer;
+									display: inline-block;																								
+									width: 100%;
+									height: auto;																						
+									.video-entry-time {										
+										@include transparent(0);
+										@include trans(opacity 1s ease-in-out);	
+									}
+									.video-share-icons {										
+										@include transparent(0);
+										@include trans(opacity 1s ease-in-out);	
+										position: absolute;
+										top: 16px;
+										right: 10px;										
+										width: 50px;
+										height: 25px;		
+										z-index: 1;																												
+										a{
+											i {
+												padding: 3px;											
+												text-align: center;
+												vertical-align: bottom;											
+												width: 20px;
+												height: 20px;
+												background-color: rgba(0,0,0,0.50);
+												color: white;
+												@include radius(4px);																		
+											}
+											i:hover {
+												background-color: #428bca;
+											}
+										}
+									}	
+									img {
+										margin: 0px 0px;																			
+									}
+									img:hover ~ .video-entry-time , img:hover ~ .video-share-icons , .video-share-icons:hover {
+										@include transparent(100);	
+									}																										
+									.video-entry-info {																			
+										@include set-element-defaults-position($width: auto, $height: 100%, $margin: auto, $padding: 0px);	
+										max-width: 300px;									
+										background: #fff;																			
+										@include shadow(0px 5px 5px -2px rgba(0,0,0,0.25));										
+										.video-entry-channel {
+											@include set-element-defaults-position($width: 60px, $height: 60px, $position: absolute, $top: 0px, $left: 0px);																				
+											background: url(../image/channel-star.png) center center no-repeat;
+											background-size: 45px 45px;
+											img {
+												width: 45px;
+												height: 45px;
+												margin: 8px;																								
+											}											
+										}
+										.video-entry-text {
+											font-family: $font-family;
+											font-weight: thin;
+											margin-left: 60px;																			
+											width: 72%;
+											height: 60px;																																																			
+											h5 {		
+												width: 100%;																					
+												@include ellipsis();																																														
+											}
+											p {
+												float: left;																								
+												width: 43%;
+												margin: 0;
+												padding-right: 2px;												
+												@include ellipsis();												
+											}								
+											p.border-left {
+												@include border(#999 thin solid, left);
+												padding-left: 6px;
+											}			
+										}
+									}																								
+							}
+					}
+					.video-entry-wide {
+							width: auto;
+							.video-entry {		
+								max-width: 249px;
+								width: auto;							
+							}	
+					}									
+			}	
+			.video-channel-sec {
+					.video-entry-wide {
+							.video-entry {
+									.video-entry-info {				
+											@include transparent(0);					
+											@include trans(opacity 1s ease-in-out);		
+											@include set-element-defaults-position($width: auto, $height: 100%, $margin: -60px 0 0 0, $padding: 0px);										
+											@include gradient(0.65);																		
+											@include shadow(0px 5px 5px -2px rgba(0,0,0,0.25));	
+											.video-entry-text {																													
+												width: 70%;		
+												p {
+													margin-right: 5px;
+													font-size: 10px;	
+													float: left;																								
+													width: 46%;																																		
+													@include ellipsis();												
+												}										
+											}									
+									}									
+							}
+							.video-entry:hover .video-entry-info , .video-entry:hover .video-entry-time , .video-entry:hover .video-share-icons  {																				
+										@include transparent(100);		
+							}	
+					}
+			}								
+			.video-sec , .people-sec {
+				display: inline-block;
+				margin-left: 0px;
+				width: 840px;				
+			}
+			.all-followers {
+				width: 100%;
+			}
+			/* People Section */
+			.people-sec {
+				padding: 0 30px;
+				.people-entry-row {
+					.people-entry {
+						cursor: pointer;						
+						.watch-follow {																																																																																																														
+							@include transparent(0);
+							@include trans(opacity 0.5s ease-in-out);		
+							a:hover {
+									background: #1a86ef;															
+							}										
+						}
+					}
+					.people-entry:hover .watch-follow {																														
+							@include transparent(100);
+					}	
+				}						
+			}			
+				
+			.ad-side-tag {
+				display: inline-block;								
+				vertical-align: top;				
+				width: 350px;
+				height: auto;
+				min-height: 600px;				
+			}
+			/* Four Video Grid */
+			.video-stack-sec {	
+					margin:  0px auto;
+					padding: 0px 40px;	
+					.category-title {
+						.watch-follow-btn {
+								display: block;
+								float: right;
+								top: -15px;
+								margin-top: 0px;
+							}		
+					}	
+					.video-entry-wide {
+							width: 100%;
+							heigth: auto;
+					}										
+					.video-entry-row , .video-entry-wide {	
+							height: auto;							
+							.big-video {
+								width: 455px !important;
+								height: 300px !important;
+							}
+																																								
+							.video-entry {																										
+									div {
+										.video-share-icons {										
+											@include transparent(0);
+											@include trans(opacity 1s ease-in-out);	
+										}
+										.video-entry-time {										
+											@include transparent(0);
+											@include trans(opacity 1s ease-in-out);	
+										}	
+										.video-entry-info {				
+											@include transparent(0);					
+											@include trans(opacity 1s ease-in-out);		
+											@include set-element-defaults-position($width: auto, $height: 100%, $margin: -60px 0 0 0, $padding: 0px);										
+											@include gradient(0.65);																		
+											@include shadow(0px 5px 5px -2px rgba(0,0,0,0.25));	
+											.video-entry-text {																													
+												width: 70%;		
+												p {
+													margin-right: 5px;
+													font-size: 10px;	
+													float: left;																								
+													width: 46%;																																		
+													@include ellipsis();												
+												}										
+											}									
+										}
+									}
+									div:hover {
+										cursor: pointer;
+									}									
+							}
+							.video-entry div:hover .video-entry-info , .video-entry div:hover .video-entry-time , .video-entry div:hover .video-share-icons  {																				
+										@include transparent(100);		
+							}	
+							.owl-wrapper-outer {
+								.owl-wrapper {									
+									.owl-item {
+										min-height: auto;
+									}									
+								}
+							}	
+							.owl-controls .owl-buttons .owl-prev , .owl-controls .owl-buttons .owl-next {
+								top: 125px;
+							}												
+					}				
+			}
+			.popular-sec , .channel-sec {											
+					padding: 0px 40px;
+					.channel-entry-row , .people-entry-row {	
+						height: 220px;
+						.owl-controls .owl-buttons .owl-prev , .owl-controls .owl-buttons .owl-next {
+								top: 55px;
+						}					
+						.channel-entry {									
+									padding: 0px;
+									margin: auto;
+									width: 140px;
+									height: 140px;																														
+									@include border(#f1f1f1 10px solid);
+									img {
+										width: 100%;
+										height: 100%;		
+										@include border(#afafaf thin solid);	
+										cursor: pointer;																										
+									}
+									.watch-follow {	
+										@include transparent(0);
+										@include trans(opacity 0.5s ease-in-out);																														
+										width: 100%;
+										height: auto;
+										margin-top: 3px;																																																												
+										a {
+											text-align: center;	
+											display: inline-block;
+											color: #fff;
+											text-decoration: none;																																				
+											padding: 4px 8px;
+											margin-left: 3px;
+											width: 53px;
+											font-size: 12px;
+											background: #1672cc;
+											@include radius(5px);																			
+										}
+										a:hover {
+											background: #1a86ef;
+										}
+									}									
+							}
+							.channel-entry:hover .watch-follow {																														
+									@include transparent(100);
+							}	
+					}					
+			}
+			/* Video Player Style */
+			.video-player-sec {	
+				margin: 0;
+				height: 800px;	
+				width: 100%;				
+				#video-container {									
+					display: inline-block;					
+					margin: 0px;
+					width : 70%;
+					height: 80%;				
+					video {
+						position: relative;
+						margin: 0px;
+						top: 50%;
+						left: 50%;
+						margin-top: -100px;	
+						margin-left: -300px;											
+						padding: 0px;	
+						width: 600px;
+						height: 300px;					
+					}	
+				}
+				#tab-container {
+					display: inline-block;
+					vertical-align: top;
+					width: 29%;
+					height: 80%;					
+					.nav-tabs {
+						display: block;												
+						margin-top: 100px;
+						padding: 0;
+						background: none;	
+						border: none;
+						li {	
+							font-size: 10px !important;	
+							@include border(none, bottom);									
+							a {								
+								width: 115px;
+								text-align: center;
+								color: #ccc;																	
+								text-decoration: none;		
+								border: none;	
+								background: none;
+								@include border(thin solid #f1f1f1, bottom);
+								margin: 0px;	
+							}
+							a:hover {
+								background: none;															
+							}								
+						}
+						li.active {
+							a {	
+								color: #fff;	
+								@include border(none, bottom);
+								@include border(thin solid #f1f1f1, top);
+								@include border(thin solid #f1f1f1, left);
+								@include border(thin solid #f1f1f1, right);					
+																
+							}
+						}
+					}				
+				}
+				#channel-info-container {
+					background-color: #222222;
+					height: 20%;
+					width: 100%;
+					.watch-follow-btn {
+						float: right;											
+						margin-top: 45px;
+						margin-right: 50px;		
+					}						
+					.channel-profile-icon {
+						float: left;						
+						width: 75px;
+						height: 75px;
+						margin: 35px 0 0 50px;
+						padding: 0px;																	
+					}
+					.channel-profile-info {
+						float: left;
+						padding: 0px;
+						color: #fff;						
+						width: 30%;
+						height: 85px;	
+						margin: 35px 0 0 5px;								
+						overflow: hidden;																				
+						h3 {
+							margin: 0 0 5px 0;
+							padding: 0px;
+							width: 100%;
+							height: auto;						
+						}						
+						p {							
+							width: 100%;
+							height: auto;
+							max-height: 73%;
+							font-size: 0.5em;
+							white-space: wrap;
+							overflow: hidden;			
+							color: #8d8d8d;																																		
+						}								
+					}
+					.channel-stats-info {	
+						float: left;					
+						@include radius(15px, "top-left");
+						@include radius(15px, "bottom-left");
+						@include radius(0px, "top-right");
+						@include radius(0px, "bottom-right");
+						margin: 35px 0 0 40px; 
+						width: 375px;
+						height: 75px;
+						background: #353535;
+						.channel-stat-content {
+							float:left;
+							width: 100%;
+							height: 100%;							
+							.channel-block-views , .channel-block-videos , .channel-block-followers {								
+								float: left;
+								width: 33%;
+								height: 100%;
+								margin-right: 5px;
+								padding: 12px 0 0 0px;
+								h3  { 										
+										color: #fff;	
+										margin: 0px;
+										padding: 0px;		
+										text-align: center;											
+										width: 75%;						
+								}
+								p {										
+										color: #8d8d8d;	
+										text-align: center;										
+										width: 75%;
+								}																							
+							}	
+							.channel-block-followers {
+								width	: 26%;
+								h3 , p  { 																				
+										width: 100%;																
+								}									
+							}
+							.arrow_box {
+								position: relative;
+								background: #353535;
+								border: 4px solid #353535;	
+							}
+							.arrow_box:after, .arrow_box:before {
+								left: 70%;
+								top: 50%;
+								border: solid transparent;
+								content: " ";
+								height: 0;
+								width: 0;
+								position: absolute;
+								pointer-events: none;
+							}
+							
+							.arrow_box:after {
+								border-color: rgba(53, 53, 53, 0);
+								border-left-color: #353535;
+								border-width: 37px;
+								margin-top: -37px;
+							}
+							.arrow_box:before {
+								border-color: rgba(53, 53, 53, 0);
+								border-left-color: #222222;
+								border-width: 40px;
+								margin-top: -40px;
+							}						
+						}
+						.channel-right-arrow {
+							float: right;							
+							margin-right: -30px;
+							@include border($b-red);
+							width: 0px;
+							height: 0px;
+							border-style: solid;
+							border-width: 37px 0 38px 30px;
+							border-color: transparent transparent transparent #353535;
+						}	
+					}
+				}
+			}				
+		}
+		/* Specifically for Search Page */
+		.search-page-main
+		{
+			width: 1200px;
+		}		
+			
+		/* The Footer */
+		footer {			  
+			overflow-x: hidden;
+			@include shadow(0px -3px 45px 1px rgba(0,0,0,0.25));	
+			@include set-element-defaults-position($width: 100%, $height: 510px, $position: relative, $bottom: 0px);		   				
+			background:#1672cc;			
+			.footer-links {
+				margin-top: 10px;
+				div {
+					position: relative;
+					height: 350px;					
+					@include border(#146abe thin solid, right);					
+				}				
+				h5 {
+					margin: 5px auto 0 auto;
+					text-transform: uppercase;
+					color: #aaa;
+					text-align: center;
+					font-weight: 100;					
+				}	
+				ul {														
+					li {						
+						margin: 13px 0px;
+						width: 100%;
+						padding: 0px;
+						position: relative;												
+						a {	
+							@include set-element-defaults-display($margin: 0 0 0 10px, $color: #fff);														
+							font-size: 12px;												
+							.img-channel {							
+								vertical-align: middle;
+								@include set-element-defaults-display($width: 30px, $height: 30px, $margin: -13px 0px, $display: inline-block);
+								@include radius(3px);							
+							}
+							span {
+								margin-left: 5px;
+								width: 100%;
+							}
+							.gp-icon {
+								background-position: -93px 0px;
+							}
+							.in-icon {
+								background-position: -123px 0px;
+							}						
+						}					
+					}
+				}
+				ul.double-space {
+					li {
+						margin: 13px 0 25px 0;
+					}
+				}				
+			}
+			.copyright {
+				@include shadow(inset 0px 31px 32px -24px rgba(0,0,0,0.5));			
+				@include set-element-defaults-position($width: 100%, $position: absolute, $bottom: 0px, $padding: 10px 20px, $color: #fff);						
+				background-color: #004a80;
+				h6 {
+					float: right;
+				}
+			}
+		}
+	}
+}
+
+
+
+/***************************************************************************************************************** 
+	Small devices (For tablets device) Landscape
+  *****************************************************************************************************************/
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+	#container {
+			.main {	
+				.video-stack-sec , .video-channel-sec {													
+					.video-entry-row , .video-entry-wide {																																						
+							.video-entry {												
+									.video-entry-info , .video-entry-time  {																				
+											@include transparent(100);	
+											opacity: 1.0;	
+									}	
+							}
+							
+					}
+				}
+				/* People Section */
+				.people-sec {					
+					.people-entry-row {
+						.people-entry {												
+							.watch-follow {																																																																																																														
+								@include transparent(100);								
+							}
+						}						
+					}						
+				}				
+			}
+			.search-page-main {
+				 width: 100%;
+				 .video-sec {
+				 		width: 100%;
+						.video-entry-wide {																																						
+							.video-entry {		
+									max-width: 233px;	
+							}
+						}
+				 }				
+				.people-sec {	
+					width: 100%;												
+				}	
+				.channel-sec {																	
+						.channel-entry-row , .people-entry-row {									
+							.channel-entry {																			
+										.watch-follow {	
+											@include transparent(100);											
+										}									
+								}								
+						}					
+				}															
+				.ad-side-tag {
+					display: none;													
+				}
+			}
+	}		
+}
+
+
+/***************************************************************************************************************** 
+	Large devices (large desktops, 1200px and up) 
+******************************************************************************************************************/
+@media (min-width: 1200px) 
+{  
+
+
+}
+
+
+
+
+
+
+
